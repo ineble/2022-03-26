@@ -1,9 +1,13 @@
 package com.sjs.exam.jpaBoard.article.controller;
 
 import com.sjs.exam.jpaBoard.article.dao.ArticleRepository;
+<<<<<<< HEAD
 import com.sjs.exam.jpaBoard.user.dao.UserRepository;
 import com.sjs.exam.jpaBoard.article.domain.Article;
 import com.sjs.exam.jpaBoard.user.domain.User;
+=======
+import com.sjs.exam.jpaBoard.article.domain.Article;
+>>>>>>> b9f349d8275fc2badb7dec0ee5378a54f60031b7
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,46 +22,70 @@ import java.util.Optional;
 public class ArticleController {
     @Autowired
     private ArticleRepository articleRepository;
+<<<<<<< HEAD
     @Autowired
     private UserRepository userRepository;
+=======
+>>>>>>> b9f349d8275fc2badb7dec0ee5378a54f60031b7
 
     @RequestMapping("list")
     @ResponseBody
     public List<Article> articles() {
         return articleRepository.findAll();
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> b9f349d8275fc2badb7dec0ee5378a54f60031b7
     @RequestMapping("detail")
     @ResponseBody
     public Article showDetail(long id) {
         Optional<Article> article = articleRepository.findById(id);
         return article.get();
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> b9f349d8275fc2badb7dec0ee5378a54f60031b7
     @RequestMapping("doDelete")
     @ResponseBody
     public String deleteItem(long id) {
         Optional<Article> article = articleRepository.findById(id);
+<<<<<<< HEAD
         if (article.isPresent()) {
+=======
+        if(article.isPresent()) {
+>>>>>>> b9f349d8275fc2badb7dec0ee5378a54f60031b7
             articleRepository.delete(article.get());
         }
         return "%d번 게시물이 삭제되었습니다.".formatted(id);
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> b9f349d8275fc2badb7dec0ee5378a54f60031b7
     @RequestMapping("doModify")
     @ResponseBody
     public Article showModify(long id, String title, String body) {
         Article article = articleRepository.findById(id).get();
+<<<<<<< HEAD
         if (title != null) {
             article.setTitle(title);
         }
         if (body != null) {
+=======
+        if(title != null) {
+            article.setTitle(title);
+        }
+        if(body != null) {
+>>>>>>> b9f349d8275fc2badb7dec0ee5378a54f60031b7
             article.setBody(body);
         }
         article.setUpdateDate(LocalDateTime.now());
         articleRepository.save(article);
         return article;
     }
+<<<<<<< HEAD
     @RequestMapping("doWrite")
     @ResponseBody
     public String doWrite(String title, String body) {
@@ -79,5 +107,9 @@ public class ArticleController {
         articleRepository.save(article);
         return "%d번 게시물이 등록되었습니다.".formatted(article.getId());
     }
+=======
+
+
+>>>>>>> b9f349d8275fc2badb7dec0ee5378a54f60031b7
 
 }
