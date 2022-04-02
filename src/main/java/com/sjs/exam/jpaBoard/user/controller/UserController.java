@@ -28,10 +28,14 @@ public class UserController {
             return "이름을 입력해주세요.";
         }
         name = name.trim();
+
         if(email == null || email.trim().length() == 0){
             return "이메일을 입력해주세요.";
         }
         email = email.trim();
+        if(userRepository.existsByEmail(email) == true){
+            return "중복된 이메일입니다.";
+        }
         if(password == null || password.trim().length() == 0){
             return "이메일을 입력해주세요.";
         }
@@ -45,16 +49,5 @@ public class UserController {
         userRepository.save(user);
         return "%d번 회원이 생성되었습니다.".formatted(user.getId());
     }
-    @RequestMapping("doDelete")
-    @ResponseBody
-    public String doDelete(long id) {
-        Optional<User> user = userRepository.findById(id);
-        if(user.isPresent()){
-            userRepository.delete(user.get());
-        }
-        return "회원이 탈퇴하셨습니다.";
-    }
-
-
 
 }
