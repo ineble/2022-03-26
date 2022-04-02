@@ -1,6 +1,6 @@
 package com.sjs.exam.jpaBoard.article.domain;
 
-import com.sjs.exam.jpaBoard.article.user.domain.User;
+import com.sjs.exam.jpaBoard.user.domain.User;
 import lombok.Getter;
 import lombok.Setter;
 

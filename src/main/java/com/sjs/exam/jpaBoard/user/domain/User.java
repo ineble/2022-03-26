@@ -1,4 +1,4 @@
-package com.sjs.exam.jpaBoard.article.user.domain;
+package com.sjs.exam.jpaBoard.user.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
