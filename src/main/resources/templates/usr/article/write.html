@@ -9,9 +9,12 @@
     <a href="write">글 쓰기</a> / <a href="list" style="color:red;">글 리스트</a>
   </div>
   <hr>
-  <h1>게시물 목록</h1>
+  <h1>게시물 작성</h1>
+  <form action="doWrite" method="POST" >
     <div>
-      제목 : <input type="text" name="title" placeholder="제목을 입력해주세요.">
+      <div>
+       제목 : <input type="text" name="title" placeholder="제목을 입력해주세요.">
+     </div>
     </div>
     <div>
       <div>
@@ -23,5 +26,6 @@
         <input type="submit" name="작성">
       </div>
     </div>
+  </form>
 </body>
 </html>
