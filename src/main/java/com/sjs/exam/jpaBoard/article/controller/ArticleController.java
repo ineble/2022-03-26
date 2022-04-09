@@ -6,10 +6,12 @@ import com.sjs.exam.jpaBoard.article.domain.Article;
 import com.sjs.exam.jpaBoard.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,11 +23,42 @@ public class ArticleController {
     @Autowired
     private UserRepository userRepository;
 
+
     @RequestMapping("list")
+    public String showList(Model model) {
+        List<Article> articles = articleRepository.findAll();
+        model.addAttribute("articles",articles);
+       return "usr/article/list";
+    }
+    @RequestMapping("practice")
+    public String showPractice(Model model){
+        List <Article> articles = articleRepository.findAll();
+        return "usr/article/practice";
+    }
+
+
+    @RequestMapping("list2")
     @ResponseBody
     public List<Article> articles() {
         return articleRepository.findAll();
     }
+    @RequestMapping("list3")
+    @ResponseBody
+    public String reverseArticle() {
+        List<Article> articles = articleRepository.findAll();
+        Collections.reverse(articles);
+        String html = "";
+        html += "<ul>";
+        for(Article article : articles){
+            html += "<li>";
+            html += "%d번 / %s".formatted(article.getId(),article.getTitle());
+            html += "</li>";
+        }
+        html += "</ul>";
+        return html;
+    }
+
+
 
     @RequestMapping("detail")
     @ResponseBody
@@ -58,6 +91,11 @@ public class ArticleController {
         articleRepository.save(article);
         return article;
     }
+    @RequestMapping("write")
+    public String showWrite() {
+        return "usr/article/write";
+    }
+
     @RequestMapping("doWrite")
     @ResponseBody
     public String doWrite(String title, String body) {

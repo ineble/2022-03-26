@@ -101,7 +101,6 @@ public class UserController {
     @ResponseBody
     public String doLogout (HttpSession session) {
         boolean isLogined = false;
-
         if(session.getAttribute("loginedUserId") != null){
             isLogined = true;
         }
@@ -109,7 +108,6 @@ public class UserController {
             return  "이미 로그아웃 되었습니다.";
         }
         session.removeAttribute("loginedUserId");
-
         return "회원이 로그아웃하셨습니다.";
     }
 }
