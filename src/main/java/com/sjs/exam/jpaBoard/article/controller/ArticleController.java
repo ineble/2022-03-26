@@ -62,9 +62,17 @@ public class ArticleController {
 
     @RequestMapping("detail")
     @ResponseBody
-    public Article showDetail(long id) {
+    public Article showDetail(long id, Model model) {
         Optional<Article> article = articleRepository.findById(id);
         return article.get();
+    }
+
+    @RequestMapping("detail2")
+    public String detail(long id, Model model) {
+        Optional<Article> opArticle = articleRepository.findById(id);
+        Article article = opArticle.get();
+        model.addAttribute("article",article);
+        return "usr/article/detail";
     }
 
     @RequestMapping("doDelete")
@@ -115,7 +123,12 @@ public class ArticleController {
         User user = userRepository.findById(1L).get();
         article.setUser(user);
         articleRepository.save(article);
-        return "%d번 게시물이 등록되었습니다.".formatted(article.getId());
+        return """
+                <script>
+                alert("%d번 게시물이 생성되었습니다.");
+                location.replace("list");
+                </script>  
+                """.formatted(article.getId());
     }
 
 
