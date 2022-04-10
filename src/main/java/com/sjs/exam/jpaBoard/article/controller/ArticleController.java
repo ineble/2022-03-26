@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -77,17 +78,36 @@ public class ArticleController {
 
     @RequestMapping("doDelete")
     @ResponseBody
-    public String deleteItem(long id) {
-        Optional<Article> article = articleRepository.findById(id);
-        if (article.isPresent()) {
-            articleRepository.delete(article.get());
+    public String doDelete(long id) {
+        if (articleRepository.existsById(id) == false) {
+            return """
+                    <script>
+                    alert('%d번 게시물은 이미 삭제되었거나 존재하지 않습니다.');
+                    history.back();
+                    </script>
+                    """.formatted(id);
         }
-        return "%d번 게시물이 삭제되었습니다.".formatted(id);
+        articleRepository.deleteById(id);
+        return """
+                <script>
+                alert('%d번 게시물이 삭제되었습니다.');
+                location.replace('list');
+                </script>
+                """
+                .formatted(id);
+    }
+    @RequestMapping("modify")
+    public String Modify(long id, Model model) {
+        Optional<Article> opArticle = articleRepository.findById(id);
+        Article article = opArticle.get();
+        model.addAttribute("article",article);
+
+        return "usr/article/modify";
     }
 
     @RequestMapping("doModify")
     @ResponseBody
-    public Article showModify(long id, String title, String body) {
+    public String doModify(long id,String title, String body) {
         Article article = articleRepository.findById(id).get();
         if (title != null) {
             article.setTitle(title);
@@ -96,17 +116,49 @@ public class ArticleController {
             article.setBody(body);
         }
         article.setUpdateDate(LocalDateTime.now());
+
         articleRepository.save(article);
-        return article;
+        return """
+                <script>
+                alert("%d번 게시물이 수정되었습니다.");
+                location.replace('detail?id=%d');
+               </script>
+                """.formatted(article.getId(), article.getId());
     }
     @RequestMapping("write")
-    public String showWrite() {
+    public String showWrite(HttpSession session, Model model) {
+        boolean isLogined = false;
+        long loginedUserId = 0;
+        if (session.getAttribute("loginedUserId") != null) {
+            isLogined = true;
+            loginedUserId = (long) session.getAttribute("loginedUserId");
+        }
+        System.out.println("isLogined : " + isLogined);
+        if (isLogined == false) {
+            model.addAttribute("msg", "로그인 후 이용해주세요.");
+            model.addAttribute("historyBack", true);
+            return "common/js";
+        }
         return "usr/article/write";
     }
 
     @RequestMapping("doWrite")
     @ResponseBody
-    public String doWrite(String title, String body) {
+    public String doWrite(String title, String body, HttpSession session) {
+        boolean isLogined = false;
+        long loginedUserId = 0;
+        if(session.getAttribute("loginedUserId") != null){
+            isLogined = true;
+            loginedUserId = (long) session.getAttribute("loginedUserId");
+        }
+        if (isLogined == false) {
+            return """
+                    <script>
+                    alert('로그인 후 이용해주세요.');
+                    history.back();
+                    </script>
+                    """;
+        }
         if(title == null || title.trim().length() == 0){
             return "제목을 입력해주세요.";
         }
@@ -120,7 +172,7 @@ public class ArticleController {
         article.setUpdateDate(LocalDateTime.now());
         article.setTitle(title);
         article.setBody(body);
-        User user = userRepository.findById(1L).get();
+        User user = userRepository.findById(loginedUserId).get();
         article.setUser(user);
         articleRepository.save(article);
         return """
