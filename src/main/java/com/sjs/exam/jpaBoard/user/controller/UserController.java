@@ -1,7 +1,6 @@
 package com.sjs.exam.jpaBoard.user.controller;
 
 
-import com.sjs.exam.jpaBoard.article.domain.Article;
 import com.sjs.exam.jpaBoard.user.dao.UserRepository;
 import com.sjs.exam.jpaBoard.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,11 +57,11 @@ public class UserController {
     public String showModify(long id, Model model) {
         Optional<User> opuser = userRepository.findById(id);
         User user = opuser.get();
-
         model.addAttribute("user",user);
 
         return "usr/user/modify";
     }
+
     @RequestMapping("doModify")
     @ResponseBody
     public String doModify(long id, String name, String password,String email,HttpSession session) {

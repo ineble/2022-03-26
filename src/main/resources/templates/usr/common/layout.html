@@ -7,23 +7,23 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
   <title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE">JPA Community</title>
-  <style>
-    body{
-      background-color : #343434;
-      color : white;
-    }
-    a{
-      color:white;
-    }
-  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/static/resource/common.css">
 
 </head>
 
 <body>
-
-<div>
-  <a href="/usr/article/write">글 쓰기</a> / <a href="/usr/article/list">글 리스트</a> / <a href="/usr/user/login">로그인</a> / <a
-        href="/usr/user/join">회원가입</a>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@2.14.0/dist/full.css" rel="stylesheet" type="text/css" />
+<div class="container mx-auto px-[10px]">
+  <div class="text-[2rem] font-bold py-[10px]"><a href="/">레딧</a></div>
+</div>
+<div class="container mx-auto px-[10px]">
+  <ul class="flex ml-[-10px]">
+    <li class="bg-yellow-50 borderd"><a href="/usr/article/write" class="block p-[10px] hover:text-[#FF0000] hover:bg-green-200">글 쓰기</a></li>
+    <li class="bg-yellow-50"><a href="/usr/article/list" class="block p-[10px] hover:text-[#FF0000] hover:bg-green-200">글 리스트</a></li>
+    <li class="bg-yellow-50"><a href="/usr/user/login" class="block p-[10px] hover:text-[#FF0000] hover:bg-green-200">로그인</a></li>
+    <li class="bg-yellow-50"><a href="/usr/user/join" class="block p-[10px] hover:text-[#FF0000] hover:bg-green-200">회원가입</a></li>
+  </ul>
 </div>
 
 <main layout:fragment="main">
